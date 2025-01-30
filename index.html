@@ -32,7 +32,7 @@
         }
         .hidden {
             background-color: #666;
-            color: transparent;
+            color: #666;
         }
     </style>
 </head>
@@ -44,13 +44,18 @@
 
     <script>
         const emojis = ['😀', '😀', '🎉', '🎉', '🎈', '🎈', '💖', '💖', '🚀', '🚀', '🌟', '🌟', '🍕', '🍕', '🎸', '🎸'];
-        let shuffledEmojis = emojis.sort(() => Math.random() - 0.5);
-        let selectedCards = [];
-        let matchedPairs = 0;
-        
+        let shuffledEmojis, selectedCards, matchedPairs;
+
+        function shuffleEmojis() {
+            shuffledEmojis = emojis.sort(() => Math.random() - 0.5);
+        }
+
         function createBoard() {
             const gameBoard = document.getElementById("gameBoard");
             gameBoard.innerHTML = "";
+            shuffleEmojis();
+            selectedCards = [];
+            matchedPairs = 0;
             shuffledEmojis.forEach((emoji, index) => {
                 let card = document.createElement("div");
                 card.classList.add("card", "hidden");
@@ -67,15 +72,16 @@
                 this.classList.remove("hidden");
                 this.classList.add("revealed");
                 selectedCards.push(this);
-            }
-            if (selectedCards.length === 2) {
-                setTimeout(checkMatch, 500);
+                
+                if (selectedCards.length === 2) {
+                    setTimeout(checkMatch, 500);
+                }
             }
         }
 
         function checkMatch() {
             if (selectedCards[0].dataset.emoji === selectedCards[1].dataset.emoji) {
-                selectedCards.forEach(card => card.style.pointerEvents = "none");
+                selectedCards.forEach(card => card.classList.add("matched"));
                 matchedPairs++;
                 if (matchedPairs === emojis.length / 2) {
                     alert("Congratulations! You found all pairs!");
@@ -91,12 +97,9 @@
         }
 
         function resetGame() {
-            shuffledEmojis = emojis.sort(() => Math.random() - 0.5);
-            matchedPairs = 0;
-            selectedCards = [];
             createBoard();
         }
-        
+
         createBoard();
     </script>
 </body>
