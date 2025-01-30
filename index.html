@@ -32,7 +32,7 @@
         }
         .hidden {
             background-color: #666;
-            color: #666;
+            color: transparent;
         }
     </style>
 </head>
@@ -84,6 +84,7 @@
                 selectedCards.forEach(card => {
                     card.textContent = "";
                     card.classList.add("hidden");
+                    card.classList.remove("revealed");
                 });
             }
             selectedCards = [];
@@ -100,3 +101,4 @@
     </script>
 </body>
 </html>
+
